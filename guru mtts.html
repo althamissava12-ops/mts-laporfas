@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTs LaporFas - Panel Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1920&auto=format&fit=crop') no-repeat center center/cover;
+            padding: 20px;
+        }
+        .container { width: 100%; max-width: 450px; display: flex; flex-direction: column; align-items: center; }
+        .dash-container { max-width: 900px; }
+        .header-logo { text-align: center; color: white; margin-bottom: 25px; }
+        .logo-img { width: 90px; height: auto; filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.3)); margin-bottom: 10px; }
+        .header-logo h1 { font-size: 2.2rem; font-weight: 800; text-shadow: 0px 2px 4px rgba(0,0,0,0.5); }
+        .header-logo p { font-size: 0.95rem; opacity: 0.9; text-shadow: 0px 1px 3px rgba(0,0,0,0.5); }
+        .badge-role {
+            display: inline-flex; align-items: center; gap: 8px; padding: 8px 24px; border-radius: 20px;
+            color: white; font-weight: 600; font-size: 0.95rem; margin-bottom: -15px; z-index: 2;
+            background-color: #1d6ed8; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        .card-box {
+            background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); border-radius: 16px;
+            padding: 35px 30px 25px 30px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+        }
+        .card-title { margin-top: 10px; margin-bottom: 5px; font-size: 1.25rem; color: #222; font-weight: 700; }
+        .card-subtitle { font-size: 0.85rem; color: #666; margin-bottom: 25px; line-height: 1.4; }
+        .form-group { position: relative; margin-bottom: 16px; }
+        .form-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #777; }
+        .form-control {
+            width: 100%; padding: 12px 15px 12px 45px; border: 1px solid #e0e0e0; border-radius: 8px;
+            background: #f7f9fa; font-size: 0.95rem; outline: none; transition: all 0.3s ease;
+        }
+        .btn-submit {
+            width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700;
+            color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-top: 15px; background-color: #1d6ed8; transition: background 0.3s ease;
+        }
+        .btn-submit:hover { background-color: #1450a3; }
+        .btn-danger { background-color: #d9534f; }
+        .btn-danger:hover { background-color: #c9302c; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.88rem; }
+        th, td { border: 1px solid #e0e0e0; padding: 10px; text-align: left; }
+        th { background-color: #1d6ed8; color: white; }
+        .status-badge { padding: 4px 8px; border-radius: 4px; color: white; font-weight: bold; font-size: 0.75rem; }
+        .Menunggu { background-color: #f0ad4e; }
+        .Diproses { background-color: #0275d8; }
+        .Selesai { background-color: #5cb85c; }
+        .btn-act { padding: 5px 8px; border: none; border-radius: 4px; color: white; font-size: 0.75rem; cursor: pointer; margin-right: 2px; }
+        .btn-proc { background: #0275d8; }
+        .btn-done { background: #5cb85c; }
+        footer { position: absolute; bottom: 15px; width: 100%; text-align: center; color: rgba(255, 255, 255, 0.85); font-size: 0.8rem; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN ADMIN -->
+    <div id="login-sec" class="container">
+        <div class="header-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Kementerian_Agama_Kemenag_Logo_%28Vector_Kemenag_Terbaru%29.png" class="logo-img">
+            <h1>MTs LaporFas</h1>
+            <p>Sistem Pelaporan Kerusakan Fasilitas Sekolah</p>
+        </div>
+
+        <div class="badge-role">
+            <i class="fa-solid fa-user-gear"></i> Login Admin
+        </div>
+
+        <div class="card-box">
+            <h2 class="card-title">Masuk ke Akun Admin</h2>
+            <p class="card-subtitle">Gunakan akun admin untuk mengelola laporan kerusakan fasilitas sekolah.</p>
+
+            <form onsubmit="prosesLogin(event)">
+                <div class="form-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="userInput" class="form-control" placeholder="Username Admin" required>
+                </div>
+                <div class="form-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="passInput" class="form-control" placeholder="Password" required>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-right-to-bracket"></i> Masuk
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DASHBOARD ADMIN -->
+    <div id="dash-sec" class="container dash-container hidden">
+        <div class="card-box">
+            <h2 class="card-title" style="color: #1d6ed8;"><i class="fa-solid fa-list-check"></i> Dashboard Admin - Terima Laporan</h2>
+            <p class="card-subtitle">Laporan masuk dari siswa secara real-time:</p>
+
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tgl</th>
+                            <th>Pelapor</th>
+                            <th>Lokasi</th>
+                            <th>Barang</th>
+                            <th>Deskripsi</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelLaporan">
+                        <tr><td colspan="7" style="text-align:center;">Memuat data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button onclick="logout()" class="btn-submit btn-danger" style="margin-top: 20px;">
+                <i class="fa-solid fa-power-off"></i> Keluar / Logout
+            </button>
+        </div>
+    </div>
+
+    <footer>&copy; 2026 MTs LaporFas | MTs Beramal, Fasilitas Terjaga</footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            databaseURL: "https://mts-laporfas-default-rtdb.asia-southeast1.firebasedatabase.app/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function prosesLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('userInput').value;
+            const p = document.getElementById('passInput').value;
+
+            // Contoh Login Admin
+            if (u === "admin" && p === "admin123") {
+                document.getElementById('login-sec').classList.add('hidden');
+                document.getElementById('dash-sec').classList.remove('hidden');
+                pantauLaporan();
+            } else {
+                alert("Username atau Password Admin salah!\nGunakan username: admin & pass: admin123");
+            }
+        }
+
+        // Membaca data laporan dari database cloud secara otomatis (Real-time)
+        function pantauLaporan() {
+            db.ref('laporan_kerusakan').on('value', snapshot => {
+                const tbody = document.getElementById('tabelLaporan');
+                tbody.innerHTML = '';
+                const data = snapshot.val();
+
+                if (!data) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Belum ada laporan masuk.</td></tr>';
+                    return;
+                }
+
+                Object.keys(data).forEach(key => {
+                    const item = data[key];
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${item.tgl}</td>
+                        <td>${item.pelapor}</td>
+                        <td>${item.lokasi}</td>
+                        <td>${item.barang}</td>
+                        <td>${item.deskripsi}</td>
+                        <td><span class="status-badge ${item.status}">${item.status}</span></td>
+                        <td>
+                            <button class="btn-act btn-proc" onclick="updateStatus('${key}', 'Diproses')">Proses</button>
+                            <button class="btn-act btn-done" onclick="updateStatus('${key}', 'Selesai')">Selesai</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            });
+        }
+
+        function updateStatus(key, statusBaru) {
+            db.ref('laporan_kerusakan/' + key).update({ status: statusBaru });
+        }
+
+        function logout() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
